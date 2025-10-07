@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pill Mate - Medicine Management</title>
+    <link rel="stylesheet" href="next.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Page Header -->
+        <div class="page-header">
+            <h1>💊 Medicine Management</h1>
+            <div class="header-actions">
+                <button class="btn btn-secondary" id="refillBtn">
+                    🔔 Refill Alerts
+                </button>
+                <button class="btn btn-primary" id="addMedicineBtn">
+                    ➕ Add Medicine
+                </button>
+            </div>
+        </div>
+
+        <!-- Today's Stats -->
+        <div class="stats-row">
+            <div class="stat-box">
+                <div class="stat-value">8</div>
+                <div class="stat-label">Total Medicines</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-value">3</div>
+                <div class="stat-label">Taken Today</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-value">2</div>
+                <div class="stat-label">Upcoming</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-value">1</div>
+                <div class="stat-label">Missed</div>
+            </div>
+        </div>
+
+        <!-- Reminder Toggle Card -->
+        <div class="card reminder-toggle-card">
+            <div class="reminder-status">
+                <h2>🔔 Reminder Mode</h2>
+                <span class="status-badge status-active" id="reminderStatus">Active</span>
+            </div>
+            
+            <div class="toggle-option">
+                <div>
+                    <strong>Master Reminder Toggle</strong>
+                    <p style="opacity: 0.9; font-size: 14px; margin-top: 5px;">Turn all reminders on/off</p>
+                </div>
+                <div class="toggle-switch active" id="masterToggle"></div>
+            </div>
+
+            <div class="toggle-option">
+                <div>
+                    <strong>Morning Reminders (6AM - 12PM)</strong>
+                    <p style="opacity: 0.9; font-size: 14px; margin-top: 5px;">Reminders for morning doses</p>
+                </div>
+                <div class="toggle-switch active" id="morningToggle"></div>
+            </div>
+
+            <div class="toggle-option">
+                <div>
+                    <strong>Afternoon Reminders (12PM - 6PM)</strong>
+                    <p style="opacity: 0.9; font-size: 14px; margin-top: 5px;">Reminders for afternoon doses</p>
+                </div>
+                <div class="toggle-switch active" id="afternoonToggle"></div>
+            </div>
+
+            <div class="toggle-option">
+                <div>
+                    <strong>Evening Reminders (6PM - 12AM)</strong>
+                    <p style="opacity: 0.9; font-size: 14px; margin-top: 5px;">Reminders for evening doses</p>
+                </div>
+                <div class="toggle-switch active" id="eveningToggle"></div>
+            </div>
+        </div>
+
+        <!-- Medicine List -->
+        <div class="card" style="margin-top: 30px;">
+            <h3><span class="card-icon">📋</span> Today's Schedule</h3>
+            <div class="medicine-list" id="medicineList">
+                <!-- Morning -->
+                <div class="medicine-item taken">
+                    <div class="medicine-header">
+                        <div class="medicine-info">
+                            <h4>Aspirin 100mg</h4>
+                            <p>⏰ <span class="medicine-time">8:00 AM</span></p>
+                            <p>📝 Take after breakfast with water</p>
+                            <p>💊 Stock: 25 tablets remaining</p>
+                        </div>
+                        <div style="text-align: right;">
+                            <span class="status-badge status-active">✓ Taken</span>
+                            <p style="color: #48bb78; font-size: 12px; margin-top: 5px;">8:05 AM</p>
+                        </div>
+                    </div>
+                    <div class="medicine-actions">
+                        <button class="action-btn btn-taken" onclick="markAsTaken(this)">✓ Mark as Taken</button>
+                        <button class="action-btn btn-skip" onclick="skipMedicine(this)">⏭️ Skip</button>
+                        <button class="action-btn btn-edit" onclick="editMedicine(this)">✏️ Edit</button>
+                        <button class="action-btn btn-delete" onclick="deleteMedicine(this)">🗑️ Delete</button>
+                    </div>
+                </div>
+
+                <div class="medicine-item taken">
+                    <div class="medicine-header">
+                        <div class="medicine-info">
+                            <h4>Vitamin D3 1000IU</h4>
+                            <p>⏰ <span class="medicine-time">9:00 AM</span></p>
+                            <p>📝 Take with breakfast</p>
+                            <p>💊 Stock: 45 capsules remaining</p>
+                        </div>
+                        <div style="text-align: right;">
+                            <span class="status-badge status-active">✓ Taken</span>
+                            <p style="color: #48bb78; font-size: 12px; margin-top: 5px;">9:10 AM</p>
+                        </div>
+                    </div>
+                    <div class="medicine-actions">
+                        <button class="action-btn btn-taken" onclick="markAsTaken(this)">✓ Mark as Taken</button>
+                        <button class="action-btn btn-skip" onclick="skipMedicine(this)">⏭️ Skip</button>
+                        <button class="action-btn btn-edit" onclick="editMedicine(this)">✏️ Edit</button>
+                        <button class="action-btn btn-delete" onclick="deleteMedicine(this)">🗑️ Delete</button>
+                    </div>
+                </div>
+
+                <!-- Afternoon -->
+                <div class="medicine-item missed">
+                    <div class="medicine-header">
+                        <div class="medicine-info">
+                            <h4>Metformin 500mg</h4>
+                            <p>⏰ <span class="medicine-time">2:00 PM</span></p>
+                            <p>📝 Take with lunch</p>
+                            <p>💊 Stock: 8 tablets remaining ⚠️</p>
+                        </div>
+                        <div style="text-align: right;">
+                            <span class="status-badge status-paused">✗ Missed</span>
+                            <p style="color: #f56565; font-size: 12px; margin-top: 5px;">30 min ago</p>
+                        </div>
+                    </div>
+                    <div class="medicine-actions">
+                        <button class="action-btn btn-taken" onclick="markAsTaken(this)">✓ Mark as Taken</button>
+                        <button class="action-btn btn-skip" onclick="skipMedicine(this)">⏭️ Skip</button>
+                        <button class="action-btn btn-edit" onclick="editMedicine(this)">✏️ Edit</button>
+                        <button class="action-btn btn-delete" onclick="deleteMedicine(this)">🗑️ Delete</button>
+                    </div>
+                </div>
+
+                <!-- Evening - Upcoming -->
+                <div class="medicine-item">
+                    <div class="medicine-header">
+                        <div class="medicine-info">
+                            <h4>Calcium Supplement</h4>
+                            <p>⏰ <span class="medicine-time">6:00 PM</span></p>
+                            <p>📝 Take with dinner</p>
+                            <p>💊 Stock: 30 tablets remaining</p>
+                        </div>
+                        <div style="text-align: right;">
+                            <span class="status-badge" style="background: #e2e8f0; color: #666;">⏰ Upcoming</span>
+                            <p style="color: #999; font-size: 12px; margin-top: 5px;">In 3 hours</p>
+                        </div>
+                    </div>
+                    <div class="medicine-actions">
+                        <button class="action-btn btn-taken" onclick="markAsTaken(this)">✓ Mark as Taken</button>
+                        <button class="action-btn btn-skip" onclick="skipMedicine(this)">⏭️ Skip</button>
+                        <button class="action-btn btn-edit" onclick="editMedicine(this)">✏️ Edit</button>
+                        <button class="action-btn btn-delete" onclick="deleteMedicine(this)">🗑️ Delete</button>
+                    </div>
+                </div>
+
+                <div class="medicine-item">
+                    <div class="medicine-header">
+                        <div class="medicine-info">
+                            <h4>Omega-3 Fish Oil</h4>
+                            <p>⏰ <span class="medicine-time">8:00 PM</span></p>
+                            <p>📝 Take after dinner</p>
+                            <p>💊 Stock: 60 capsules remaining</p>
+                        </div>
+                        <div style="text-align: right;">
+                            <span class="status-badge" style="background: #e2e8f0; color: #666;">⏰ Upcoming</span>
+                            <p style="color: #999; font-size: 12px; margin-top: 5px;">In 5 hours</p>
+                        </div>
+                    </div>
+                    <div class="medicine-actions">
+                        <button class="action-btn btn-taken" onclick="markAsTaken(this)">✓ Mark as Taken</button>
+                        <button class="action-btn btn-skip" onclick="skipMedicine(this)">⏭️ Skip</button>
+                        <button class="action-btn btn-edit" onclick="editMedicine(this)">✏️ Edit</button>
+                        <button class="action-btn btn-delete" onclick="deleteMedicine(this)">🗑️ Delete</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Refill Reminders Card -->
+        <div class="card" style="margin-top: 30px;">
+            <h3><span class="card-icon">🔔</span> Refill Reminders</h3>
+            <div style="margin-top: 20px;">
+                <div class="refill-item">
+                    <div class="refill-info">
+                        <h4>Metformin 500mg</h4>
+                        <p>⚠️ Only 8 tablets left - Refill needed within 3 days</p>
+                    </div>
+                    <span class="stock-badge stock-critical">Critical</span>
+                </div>
+
+                <div class="refill-item low-stock">
+                    <div class="refill-info">
+                        <h4>Aspirin 100mg</h4>
+                        <p>⚠️ 25 tablets remaining - Refill needed within 2 weeks</p>
+                    </div>
+                    <span class="stock-badge stock-low">Low Stock</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Medicine Modal -->
+    <div id="addMedicineModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Add New Medicine</h2>
+                <span class="close-btn" id="closeAddModal">×</span>
+            </div>
+            <form id="addMedicineForm">
+                <div class="form-group">
+                    <label>Medicine Name *</label>
+                    <input type="text" id="medicineName" placeholder="e.g., Aspirin 100mg" required>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Dosage *</label>
+                        <input type="text" id="dosage" placeholder="e.g., 100mg" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Frequency *</label>
+                        <select id="frequency" required>
+                            <option value="">Select</option>
+                            <option value="daily">Once Daily</option>
+                            <option value="twice">Twice Daily</option>
+                            <option value="thrice">Three Times Daily</option>
+                            <option value="custom">Custom</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Time *</label>
+                        <input type="time" id="medicineTime" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Duration *</label>
+                        <select id="duration" required>
+                            <option value="">Select</option>
+                            <option value="7">7 Days</option>
+                            <option value="14">14 Days</option>
+                            <option value="30">1 Month</option>
+                            <option value="90">3 Months</option>
+                            <option value="ongoing">Ongoing</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Stock Quantity</label>
+                        <input type="number" id="stockQty" placeholder="e.g., 30" min="1">
+                    </div>
+                    <div class="form-group">
+                        <label>Refill Alert At</label>
+                        <input type="number" id="refillAlert" placeholder="e.g., 5" min="1">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Instructions</label>
+                    <textarea id="instructions" rows="3" placeholder="e.g., Take after breakfast with water"></textarea>
+                </div>
+
+                <div style="display: flex; gap: 15px; margin-top: 25px;">
+                    <button type="button" class="btn btn-secondary" style="flex: 1;" id="cancelAddBtn">Cancel</button>
+                    <button type="submit" class="btn btn-primary" style="flex: 1;">Add Medicine</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Toggle Switches
+        document.addEventListener('DOMContentLoaded', function() {
+            // Master toggle
+            const masterToggle = document.getElementById('masterToggle');
+            const reminderStatus = document.getElementById('reminderStatus');
+            const timeToggles = [
+                document.getElementById('morningToggle'),
+                document.getElementById('afternoonToggle'),
+                document.getElementById('eveningToggle')
+            ];
+
+            masterToggle.addEventListener('click', function() {
+                this.classList.toggle('active');
+                const isActive = this.classList.contains('active');
+                
+                // Update status badge
+                if (isActive) {
+                    reminderStatus.textContent = 'Active';
+                    reminderStatus.className = 'status-badge status-active';
+                } else {
+                    reminderStatus.textContent = 'Paused';
+                    reminderStatus.className = 'status-badge status-paused';
+                }
+
+                // Toggle all time-based toggles
+                timeToggles.forEach(toggle => {
+                    if (isActive) {
+                        toggle.classList.add('active');
+                    } else {
+                        toggle.classList.remove('active');
+                    }
+                });
+            });
+
+            // Individual time toggles
+            timeToggles.forEach(toggle => {
+                toggle.addEventListener('click', function() {
+                    this.classList.toggle('active');
+                    
+                    // Check if all are off
+                    const allOff = timeToggles.every(t => !t.classList.contains('active'));
+                    if (allOff) {
+                        masterToggle.classList.remove('active');
+                        reminderStatus.textContent = 'Paused';
+                        reminderStatus.className = 'status-badge status-paused';
+                    }
+                    
+                    // Check if all are on
+                    const allOn = timeToggles.every(t => t.classList.contains('active'));
+                    if (allOn) {
+                        masterToggle.classList.add('active');
+                        reminderStatus.textContent = 'Active';
+                        reminderStatus.className = 'status-badge status-active';
+                    }
+                });
+            });
+
+            // Add Medicine Modal
+            const addMedicineBtn = document.getElementById('addMedicineBtn');
+            const addModal = document.getElementById('addMedicineModal');
+            const closeAddModal = document.getElementById('closeAddModal');
+            const cancelAddBtn = document.getElementById('cancelAddBtn');
+            const addMedicineForm = document.getElementById('addMedicineForm');
+
+            addMedicineBtn.addEventListener('click', function() {
+                addModal.classList.add('active');
+            });
+
+            closeAddModal.addEventListener('click', function() {
+                addModal.classList.remove('active');
+            });
+
+            cancelAddBtn.addEventListener('click', function() {
+                addModal.classList.remove('active');
+            });
+
+            // Close modal on outside click
+            window.addEventListener('click', function(e) {
+                if (e.target === addModal) {
+                    addModal.classList.remove('active');
+                }
+            });
+
+            // Handle Add Medicine Form Submission
+            addMedicineForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const medicineName = document.getElementById('medicineName').value;
+                const dosage = document.getElementById('dosage').value;
+                const frequency = document.getElementById('frequency').value;
+                const time = document.getElementById('medicineTime').value;
+                const duration = document.getElementById('duration').value;
+                const stockQty = document.getElementById('stockQty').value;
+                const refillAlert = document.getElementById('refillAlert').value;
+                const instructions = document.getElementById('instructions').value;
+
+                // Create medicine object
+                const medicine = {
+                    name: medicineName,
+                    dosage: dosage,
+                    frequency: frequency,
+                    time: time,
+                    duration: duration,
+                    stock: stockQty,
+                    refillAlert: refillAlert,
+                    instructions: instructions
+                };
+
+                console.log('New Medicine Added:', medicine);
+
+                // Add medicine to list
+                addMedicineToList(medicine);
+
+                // Show success message
+                alert(`✅ Medicine "${medicineName}" has been added successfully!`);
+
+                // Reset form
+                addMedicineForm.reset();
+
+                // Close modal
+                addModal.classList.remove('active');
+            });
+        });
+
+        // Mark as Taken Function
+        function markAsTaken(button) {
+            const medicineItem = button.closest('.medicine-item');
+            const medicineName = medicineItem.querySelector('h4').textContent;
+            
+            // Add taken class
+            medicineItem.classList.remove('missed');
+            medicineItem.classList.add('taken');
+            
+            // Update status badge
+            const statusArea = medicineItem.querySelector('[style*="text-align: right"]');
+            const now = new Date();
+            const timeStr = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+            
+            statusArea.innerHTML = `
+                <span class="status-badge status-active">✓ Taken</span>
+                <p style="color: #48bb78; font-size: 12px; margin-top: 5px;">${timeStr}</p>
+            `;
+            
+            // Update medicine actions
+            const actionsDiv = medicineItem.querySelector('.medicine-actions');
+            actionsDiv.innerHTML = `
+                <button class="action-btn btn-edit" onclick="editMedicine(this)">✏️ Edit</button>
+                <button class="action-btn btn-delete" onclick="deleteMedicine(this)">🗑️ Delete</button>
+            `;
+            
+            // Show notification
+            showNotification(`✅ ${medicineName} marked as taken!`, 'success');
+        }
+
+        // Edit Medicine Function
+        function editMedicine(button) {
+            const medicineItem = button.closest('.medicine-item');
+            const name = medicineItem.querySelector('h4').textContent;
+            const time = medicineItem.querySelector('.medicine-time').textContent;
+            const instructions = medicineItem.querySelector('p:nth-of-type(2)').textContent.replace('📝 ', '');
+            const stock = medicineItem.querySelector('p:nth-of-type(3)').textContent.match(/\d+/)[0];
+            
+            // Pre-fill form with current data
+            document.getElementById('medicineName').value = name;
+            document.getElementById('medicineTime').value = time;
+            document.getElementById('instructions').value = instructions;
+            document.getElementById('stockQty').value = stock;
+            
+            // Open modal
+            document.getElementById('addMedicineModal').classList.add('active');
+            
+            // Change form title
+            document.querySelector('.modal-header h2').textContent = 'Edit Medicine';
+            
+            // Store reference to item being edited
+            window.editingItem = medicineItem;
+            
+            showNotification('📝 Editing medicine details', 'info');
+        }
+
+        // Delete Medicine Function
+        function deleteMedicine(button) {
+            const medicineItem = button.closest('.medicine-item');
+            const name = medicineItem.querySelector('h4').textContent;
+            
+            if (confirm(`Are you sure you want to delete "${name}"?`)) {
+                medicineItem.style.transition = 'all 0.3s';
+                medicineItem.style.opacity = '0';
+                medicineItem.style.transform = 'translateX(-50px)';
+                
+                setTimeout(() => {
+                    medicineItem.remove();
+                    showNotification(`🗑️ ${name} has been deleted`, 'error');
+                }, 300);
+            }
+        }
+
+        // Add Medicine to List Function
+        function addMedicineToList(medicine) {
+            const medicineList = document.getElementById('medicineList');
+            
+            const medicineItem = document.createElement('div');
+            medicineItem.className = 'medicine-item';
+            medicineItem.style.opacity = '0';
+            medicineItem.style.transform = 'translateY(20px)';
+            
+            medicineItem.innerHTML = `
+                <div class="medicine-header">
+                    <div class="medicine-info">
+                        <h4>${medicine.name}</h4>
+                        <p>⏰ <span class="medicine-time">${medicine.time}</span></p>
+                        <p>📝 ${medicine.instructions || 'No instructions'}</p>
+                        <p>💊 Stock: ${medicine.stock || 'Not specified'} ${medicine.dosage ? '(' + medicine.dosage + ')' : ''}</p>
+                    </div>
+                    <div style="text-align: right;">
+                        <span class="status-badge" style="background: #e2e8f0; color: #666;">⏰ Upcoming</span>
+                        <p style="color: #999; font-size: 12px; margin-top: 5px;">Just added</p>
+                    </div>
+                </div>
+                <div class="medicine-actions">
+                    <button class="action-btn btn-taken" onclick="markAsTaken(this)">✓ Mark as Taken</button>
+                    <button class="action-btn btn-skip">⏭️ Skip</button>
+                    <button class="action-btn btn-edit" onclick="editMedicine(this)">✏️ Edit</button>
+                    <button class="action-btn btn-delete" onclick="deleteMedicine(this)">🗑️ Delete</button>
+                </div>
+            `;
+            
+            medicineList.appendChild(medicineItem);
+            
+            // Animate in
+            setTimeout(() => {
+                medicineItem.style.transition = 'all 0.5s';
+                medicineItem.style.opacity = '1';
+                medicineItem.style.transform = 'translateY(0)';
+            }, 10);
+        }
+
+        // Show Notification Function
+        function showNotification(message, type) {
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: ${type === 'success' ? '#48bb78' : type === 'error' ? '#f56565' : '#667eea'};
+                color: white;
+                padding: 15px 25px;
+                border-radius: 10px;
+                box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+                z-index: 10000;
+                animation: slideIn 0.3s ease;
+                font-weight: 600;
+            `;
+            notification.textContent = message;
+            
+            document.body.appendChild(notification);
+            
+            // Remove after 3 seconds
+            setTimeout(() => {
+                notification.style.animation = 'slideOut 0.3s ease';
+                setTimeout(() => notification.remove(), 300);
+            }, 3000);
+        }
+
+        // Add animation styles
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideIn {
+                from {
+                    transform: translateX(400px);
+                    opacity: 0;
+                }
+                to {
+                    transform: translateX(0);
+                    opacity: 1;
+                }
+            }
+            @keyframes slideOut {
+                from {
+                    transform: translateX(0);
+                    opacity: 1;
+                }
+                to {
+                    transform: translateX(400px);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Skip button functionality
+        document.addEventListener('click', function(e) {
+            if (e.target.classList.contains('btn-skip') || e.target.textContent.includes('Skip')) {
+                const medicineItem = e.target.closest('.medicine-item');
+                const name = medicineItem.querySelector('h4').textContent;
+                
+                if (confirm(`Skip ${name} for today?`)) {
+                    medicineItem.style.opacity = '0.5';
+                    const statusArea = medicineItem.querySelector('[style*="text-align: right"]');
+                    statusArea.innerHTML = `
+                        <span class="status-badge" style="background: #e2e8f0; color: #666;">⏭️ Skipped</span>
+                        <p style="color: #999; font-size: 12px; margin-top: 5px;">Just now</p>
+                    `;
+                    showNotification(`⏭️ ${name} skipped for today`, 'info');
+                }
+            }
+        });
+    </script>

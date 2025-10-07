@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pill Mate - Caregiver & Adherence</title>
+    <link rel="stylesheet" href="care.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Navigation Tabs -->
+        <div class="nav-tabs">
+            <button class="tab-btn active" onclick="switchTab('caregiver')">
+                👥 Caregiver Alerts
+            </button>
+            <button class="tab-btn" onclick="switchTab('adherence')">
+                🏆 Adherence Score
+            </button>
+        </div>
+
+        <!-- CAREGIVER ALERTS PAGE -->
+        <div id="caregiverPage" class="page-section active">
+            <div class="header-card">
+                <h1>👥 Caregiver Alerts</h1>
+                <p>Manage caregivers and receive notifications when doses are missed</p>
+            </div>
+
+            <!-- Stats Overview -->
+            <div class="grid-3">
+                <div class="card stat-card">
+                    <div class="stat-value">3</div>
+                    <div class="stat-label">Active Caregivers</div>
+                </div>
+                <div class="card stat-card">
+                    <div class="stat-value">12</div>
+                    <div class="stat-label">Alerts Sent Today</div>
+                </div>
+                <div class="card stat-card">
+                    <div class="stat-value">2</div>
+                    <div class="stat-label">Pending Alerts</div>
+                </div>
+            </div>
+
+            <!-- Add Caregiver Card -->
+            <div class="card" style="margin-bottom: 30px;">
+                <h3><span class="card-icon">➕</span> Add New Caregiver</h3>
+                <button class="btn btn-primary" id="addCaregiverBtn">
+                    Add Caregiver
+                </button>
+            </div>
+
+            <!-- Active Caregivers -->
+            <div class="card">
+                <h3><span class="card-icon">👥</span> Active Caregivers</h3>
+                <div style="margin-top: 20px;">
+                    <div class="caregiver-item">
+                        <div class="caregiver-info">
+                            <div class="caregiver-avatar">👩</div>
+                            <div class="caregiver-details">
+                                <h4>Dr. Sarah Johnson</h4>
+                                <p>📧 sarah.j@email.com | 📱 +91 98765 43210</p>
+                            </div>
+                        </div>
+                        <div class="caregiver-actions">
+                            <button class="btn-icon" title="Edit">✏️</button>
+                            <button class="btn-icon" title="Delete">🗑️</button>
+                        </div>
+                    </div>
+
+                    <div class="caregiver-item">
+                        <div class="caregiver-info">
+                            <div class="caregiver-avatar">👨</div>
+                            <div class="caregiver-details">
+                                <h4>Rajesh Kumar (Brother)</h4>
+                                <p>📧 rajesh.k@email.com | 📱 +91 98765 43211</p>
+                            </div>
+                        </div>
+                        <div class="caregiver-actions">
+                            <button class="btn-icon" title="Edit">✏️</button>
+                            <button class="btn-icon" title="Delete">🗑️</button>
+                        </div>
+                    </div>
+
+                    <div class="caregiver-item">
+                        <div class="caregiver-info">
+                            <div class="caregiver-avatar">👩</div>
+                            <div class="caregiver-details">
+                                <h4>Priya Sharma (Daughter)</h4>
+                                <p>📧 priya.s@email.com | 📱 +91 98765 43212</p>
+                            </div>
+                        </div>
+                        <div class="caregiver-actions">
+                            <button class="btn-icon" title="Edit">✏️</button>
+                            <button class="btn-icon" title="Delete">🗑️</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Alert Settings -->
+            <div class="card" style="margin-top: 30px;">
+                <h3><span class="card-icon">⚙️</span> Alert Settings</h3>
+                <div style="margin-top: 20px;">
+                    <div class="toggle-container">
+                        <div>
+                            <strong>Enable Caregiver Alerts</strong>
+                            <p style="color: #666; font-size: 14px;">Notify caregivers when doses are missed</p>
+                        </div>
+                        <div class="toggle-switch active"></div>
+                    </div>
+
+                    <div class="toggle-container">
+                        <div>
+                            <strong>Auto-send After 30 Minutes</strong>
+                            <p style="color: #666; font-size: 14px;">Send alert if medicine not taken in 30 min</p>
+                        </div>
+                        <div class="toggle-switch active"></div>
+                    </div>
+
+                    <div class="toggle-container">
+                        <div>
+                            <strong>Email Notifications</strong>
+                            <p style="color: #666; font-size: 14px;">Send alerts via email</p>
+                        </div>
+                        <div class="toggle-switch active"></div>
+                    </div>
+
+                    <div class="toggle-container">
+                        <div>
+                            <strong>SMS Notifications</strong>
+                            <p style="color: #666; font-size: 14px;">Send alerts via SMS</p>
+                        </div>
+                        <div class="toggle-switch"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Alerts -->
+            <div class="card" style="margin-top: 30px;">
+                <h3><span class="card-icon">🔔</span> Recent Alerts</h3>
+                <div style="margin-top: 20px;">
+                    <div class="alert-item">
+                        <div class="alert-header">
+                            <span class="alert-title">⚠️ Missed Dose Alert</span>
+                            <span class="alert-time">10 min ago</span>
+                        </div>
+                        <div class="alert-message">
+                            Aspirin 100mg (8:00 AM) was not taken. Alert sent to Dr. Sarah Johnson and Rajesh Kumar.
+                        </div>
+                    </div>
+
+                    <div class="alert-item resolved">
+                        <div class="alert-header">
+                            <span class="alert-title">✅ Dose Taken</span>
+                            <span class="alert-time">2 hours ago</span>
+                        </div>
+                        <div class="alert-message">
+                            Metformin 500mg was taken at 2:15 PM. All caregivers notified.
+                        </div>
+                    </div>
+
+                    <div class="alert-item">
+                        <div class="alert-header">
+                            <span class="alert-title">⚠️ Low Stock Alert</span>
+                            <span class="alert-time">5 hours ago</span>
+                        </div>
+                        <div class="alert-message">
+                            Vitamin D3 has only 3 doses remaining. Refill reminder sent to caregivers.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ADHERENCE SCORE PAGE -->
+        <div id="adherencePage" class="page-section">
+            <div class="header-card">
+                <h1>🏆 Adherence Score</h1>
+                <p>Track your medication adherence and maintain your health goals</p>
+            </div>
+
+            <!-- Current Score -->
+            <div class="streak-display">
+                <div class="streak-fire">🔥</div>
+                <div class="streak-number">12</div>
+                <div class="streak-label">Day Streak</div>
+            </div>
+
+            <!-- Score Stats -->
+            <div class="grid-3">
+                <div class="card stat-card">
+                    <div class="stat-value">95%</div>
+                    <div class="stat-label">Overall Score</div>
+                    <span class="badge badge-success" style="margin-top: 10px;">Excellent</span>
+                </div>
+                <div class="card stat-card">
+                    <div class="stat-value">28/30</div>
+                    <div class="stat-label">This Month</div>
+                    <span class="badge badge-success" style="margin-top: 10px;">On Track</span>
+                </div>
+                <div class="card stat-card">
+                    <div class="stat-value">340</div>
+                    <div class="stat-label">Total Doses</div>
+                    <span class="badge badge-success" style="margin-top: 10px;">323 Taken</span>
+                </div>
+            </div>
+
+            <!-- Progress Details -->
+            <div class="card" style="margin-bottom: 30px;">
+                <h3><span class="card-icon">📊</span> Monthly Progress</h3>
+                <div style="margin-top: 20px;">
+                    <div style="margin-bottom: 20px;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                            <span style="font-weight: 600;">Morning Doses</span>
+                            <span style="color: #667eea; font-weight: bold;">98%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 98%;">98%</div>
+                        </div>
+                    </div>
+
+                    <div style="margin-bottom: 20px;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                            <span style="font-weight: 600;">Afternoon Doses</span>
+                            <span style="color: #667eea; font-weight: bold;">92%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 92%;">92%</div>
+                        </div>
+                    </div>
+
+                    <div style="margin-bottom: 20px;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                            <span style="font-weight: 600;">Evening Doses</span>
+                            <span style="color: #667eea; font-weight: bold;">95%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 95%;">95%</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Weekly Chart -->
+            <div class="chart-container">
+                <h3>📈 Weekly Adherence</h3>
+                <div class="bar-chart">
+                    <div class="bar-item">
+                        <div class="bar" style="height: 80%;">
+                            <div class="bar-value">4/5</div>
+                        </div>
+                        <div class="bar-label">Mon</div>
+                    </div>
+                    <div class="bar-item">
+                        <div class="bar" style="height: 100%;">
+                            <div class="bar-value">5/5</div>
+                        </div>
+                        <div class="bar-label">Tue</div>
+                    </div>
+                    <div class="bar-item">
+                        <div class="bar" style="height: 100%;">
+                            <div class="bar-value">5/5</div>
+                        </div>
+                        <div class="bar-label">Wed</div>
+                    </div>
+                    <div class="bar-item">
+                        <div class="bar" style="height: 90%;">
+                            <div class="bar-value">4.5/5</div>
+                        </div>
+                        <div class="bar-label">Thu</div>
+                    </div>
+                    <div class="bar-item">
+                        <div class="bar" style="height: 100%;">
+                            <div class="bar-value">5/5</div>
+                        </div>
+                        <div class="bar-label">Fri</div>
+                    </div>
+                    <div class="bar-item">
+                        <div class="bar" style="height: 95%;">
+                            <div class="bar-value">4.5/5</div>
+                        </div>
+                        <div class="bar-label">Sat</div>
+                    </div>
+                    <div class="bar-item">
+                        <div class="bar" style="height: 85%;">
+                            <div class="bar-value">4/5</div>
+                        </div>
+                        <div class="bar-label">Sun</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Achievements -->
+            <div class="card">
+                <h3><span class="card-icon">🎖️</span> Achievements</h3>
+                <div style="margin-top: 20px; display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 20px;">
+                    <div style="text-align: center; padding: 20px; background: #f8f9fa; border-radius: 15px;">
+                        <div style="font-size: 48px; margin-bottom: 10px;">🔥</div>
+                        <div style="font-weight: bold; color: #333;">12 Day Streak</div>
+                        <div style="font-size: 12px; color: #666;">Keep it up!</div>
+                    </div>
+                    <div style="text-align: center; padding: 20px; background: #f8f9fa; border-radius: 15px;">
+                        <div style="font-size: 48px; margin-bottom: 10px;">⭐</div>
+                        <div style="font-weight: bold; color: #333;">Perfect Week</div>
+                        <div style="font-size: 12px; color: #666;">100% this week</div>
+                    </div>
+                    <div style="text-align: center; padding: 20px; background: #f8f9fa; border-radius: 15px;">
+                        <div style="font-size: 48px; margin-bottom: 10px;">💪</div>
+                        <div style="font-weight: bold; color: #333;">30 Day Champion</div>
+                        <div style="font-size: 12px; color: #666;">Completed 30 days</div>
+                    </div>
+                    <div style="text-align: center; padding: 20px; background: #f8f9fa; border-radius: 15px;">
+                        <div style="font-size: 48px; margin-bottom: 10px;">🎯</div>
+                        <div style="font-weight: bold; color: #333;">95% Club</div>
+                        <div style="font-size: 12px; color: #666;">Excellent adherence</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Medicine-wise Adherence -->
+            <div class="card" style="margin-top: 30px;">
+                <h3><span class="card-icon">💊</span> Medicine-wise Adherence</h3>
+                <div style="margin-top: 20px;">
+                    <div style="margin-bottom: 25px; padding: 20px; background: #f8f9fa; border-radius: 10px;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                            <strong>Aspirin 100mg</strong>
+                            <span class="badge badge-success">98%</span>
+                        </div>
+                        <div class="progress-bar" style="height: 20px;">
+                            <div class="progress-fill" style="width: 98%; font-size: 12px;">98%</div>
+                        </div>
+                    </div>
+
+                    <div style="margin-bottom: 25px; padding: 20px; background: #f8f9fa; border-radius: 10px;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                            <strong>Vitamin D3</strong>
+                            <span class="badge badge-success">100%</span>
+                        </div>
+                        <div class="progress-bar" style="height: 20px;">
+                            <div class="progress-fill" style="width: 100%; font-size: 12px;">100%</div>
+                        </div>
+                    </div>
+
+                    <div style="margin-bottom: 25px; padding: 20px; background: #f8f9fa; border-radius: 10px;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                            <strong>Metformin 500mg</strong>
+                            <span class="badge badge-warning">85%</span>
+                        </div>
+                        <div class="progress-bar" style="height: 20px;">
+                            <div class="progress-fill" style="width: 85%; font-size: 12px;">85%</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ADD CAREGIVER MODAL -->
+        <div id="addCaregiverModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Add New Caregiver</h2>
+                    <span class="close-btn" id="closeModalBtn">×</span>
+                </div>
+                <form id="caregiverForm">
+                    <div class="form-group">
+                        <label>Full Name *</label>
+                        <input type="text" id="caregiverName" placeholder="Enter caregiver's full name" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Phone Number *</label>
+                        <input type="tel" id="caregiverPhone" placeholder="+91 98765 43210" pattern="[+]?[0-9]{10,15}" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Email Address *</label>
+                        <input type="email" id="caregiverEmail" placeholder="caregiver@email.com" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Relationship *</label>
+                        <select id="caregiverRelation" required>
+                            <option value="">Select relationship</option>
+                            <option value="spouse">Spouse</option>
+                            <option value="parent">Parent</option>
+                            <option value="child">Son/Daughter</option>
+                            <option value="sibling">Brother/Sister</option>
+                            <option value="friend">Friend</option>
+                            <option value="doctor">Doctor</option>
+                            <option value="nurse">Nurse</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Alert Preferences</label>
+                        <div style="margin-top: 10px;">
+                            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+                                <input type="checkbox" id="emailAlert" checked>
+                                <label for="emailAlert" style="margin: 0;">Email Notifications</label>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 10px;">
+                                <input type="checkbox" id="smsAlert">
+                                <label for="smsAlert" style="margin: 0;">SMS Notifications</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Notes (Optional)</label>
+                        <textarea id="caregiverNotes" placeholder="Any additional information about this caregiver" rows="3"></textarea>
+                    </div>
+
+                    <div style="display: flex; gap: 15px; margin-top: 30px;">
+                        <button type="button" class="btn btn-secondary" style="flex: 1;" id="cancelBtn">Cancel</button>
+                        <button type="submit" class="btn btn-primary" style="flex: 1;">Add Caregiver</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Tab Switching
+        function switchTab(tab) {
+            // Update tab buttons
+            const tabBtns = document.querySelectorAll('.tab-btn');
+            tabBtns.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            // Update page sections
+            const pages = document.querySelectorAll('.page-section');
+            pages.forEach(page => page.classList.remove('active'));
+
+            if (tab === 'caregiver') {
+                document.getElementById('caregiverPage').classList.add('active');
+            } else {
+                document.getElementById('adherencePage').classList.add('active');
+            }
+        }
+
+        // Modal Functions
+        function openModal() {
+            document.getElementById('addCaregiverModal').classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('addCaregiverModal').classList.remove('active');
+        }
+
+        // Add event listeners after DOM loads
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add Caregiver button
+            const addBtn = document.getElementById('addCaregiverBtn');
+            if (addBtn) {
+                addBtn.addEventListener('click', openModal);
+            }
+
+            // Close button
+            const closeBtn = document.getElementById('closeModalBtn');
+            if (closeBtn) {
+                closeBtn.addEventListener('click', closeModal);
+            }
+
+            // Cancel button
+            const cancelBtn = document.getElementById('cancelBtn');
+            if (cancelBtn) {
+                cancelBtn.addEventListener('click', closeModal);
+            }
+
+            // Form submission
+            const form = document.getElementById('caregiverForm');
+            if (form) {
+                form.addEventListener('submit', handleAddCaregiver);
+            }
+
+            // Close modal on outside click
+            window.addEventListener('click', function(e) {
+                if (e.target.classList.contains('modal')) {
+                    closeModal();
+                }
+            });
+
+            // Toggle switches
+            document.addEventListener('click', function(e) {
+                if (e.target.classList.contains('toggle-switch')) {
+                    e.target.classList.toggle('active');
+                }
+            });
+
+            // Animate progress bars
+            const progressFills = document.querySelectorAll('.progress-fill');
+            progressFills.forEach(fill => {
+                const width = fill.style.width;
+                fill.style.width = '0%';
+                setTimeout(() => {
+                    fill.style.width = width;
+                }, 100);
+            });
+
+            // Animate bars
+            const bars = document.querySelectorAll('.bar');
+            bars.forEach((bar, index) => {
+                const height = bar.style.height;
+                bar.style.height = '0%';
+                setTimeout(() => {
+                    bar.style.height = height;
+                }, 100 + (index * 100));
+            });
+        });
+
+        // Handle Add Caregiver Form
+        function handleAddCaregiver(event) {
+            event.preventDefault();
+            
+            const name = document.getElementById('caregiverName').value;
+            const phone = document.getElementById('caregiverPhone').value;
+            const email = document.getElementById('caregiverEmail').value;
+            const relation = document.getElementById('caregiverRelation').value;
+            const notes = document.getElementById('caregiverNotes').value;
+            const emailAlert = document.getElementById('emailAlert').checked;
+            const smsAlert = document.getElementById('smsAlert').checked;
+
+            // Create caregiver object
+            const caregiver = {
+                name: name,
+                phone: phone,
+                email: email,
+                relation: relation,
+                notes: notes,
+                emailAlert: emailAlert,
+                smsAlert: smsAlert
+            };
+
+            console.log('New Caregiver Added:', caregiver);
+
+            // Show success message
+            alert(`✅ Caregiver "${name}" has been added successfully!\n\nEmail: ${email}\nPhone: ${phone}\nRelationship: ${relation}`);
+
+            // Reset form
+            document.getElementById('caregiverForm').reset();
+
+            // Close modal
+            closeModal();
+
+            // Here you would typically send this data to your backend
+            // Example: fetch('/api/caregivers', { method: 'POST', body: JSON.stringify(caregiver) })
+        }
+    </script>
